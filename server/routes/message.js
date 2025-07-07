@@ -1,10 +1,10 @@
 import express from 'express';
-import { verifyToken } from '../middleware/auth.js';
+import authMiddleware from '../middleware/auth.js';
 import Message from '../models/message.js';
 
 const router = express.Router();
 
-router.post('/messages', verifyToken, async (req, res) => {
+router.post('/messages', authMiddleware, async (req, res) => {
     const { chatId, content } = req.body;
     
     if (!chatId || !content) {
@@ -28,7 +28,7 @@ router.post('/messages', verifyToken, async (req, res) => {
     }
 });
 
-router.get('/messages/:chatId', verifyToken, async (req, res) => {
+router.get('/messages/:chatId', authMiddleware, async (req, res) => {
     const { chatId } = req.params;
 
     try {
@@ -40,3 +40,5 @@ router.get('/messages/:chatId', verifyToken, async (req, res) => {
         res.status(500).json({ error: 'Failed to fetch messages'});
     }
 })
+
+export default router;

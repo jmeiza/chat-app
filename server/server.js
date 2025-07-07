@@ -1,28 +1,62 @@
 import express from 'express';
+import http from 'http';
+import { Server } from 'socket.io';
 import cors from 'cors';    //cors allows communication b/w different ports
 import mongoose from 'mongoose';
 import dotenv from 'dotenv';
 import registerRoute from './routes/register.js';
 import loginRoute from './routes/login.js';
+import chatRoute from './routes/chat.js';
+import messageRoute from './routes/message.js';
 
 dotenv.config();
 const PORT = process.env.PORT;
 const app = express()
+const server = http.createServer(app);
+
+const io = new Server(server, {
+    cors: {
+        origin: '*',
+        methods: ['GET', 'POST'],
+    },
+});
 
 // Middleware
-app.use(express.json());
 app.use(cors());
+app.use(express.json());
 
 // Routes
 app.use('/api/auth', registerRoute);
 app.use('/api/auth', loginRoute);
+app.use('/api/chats', chatRoute);
+app.use('/api/messages', messageRoute);
+
+io.on('connection', (socket) => {
+    console.log('User connected:', socket.id);
+
+    socket.on('join chat', (chatId) => {
+        socket.join(chatId);
+        console.log(`User ${socket.id} joined chat ${chatId}`);
+    });
+
+    socket.on('new message', (newMessage) => {
+        const chatId = newMessage.chat;     //This is the chat field we included when making the messageSchema
+
+        // Broadcasts the message to everyone in that chat room except the sender.
+        socket.to(chatId).emit('message received', newMessage); 
+    })
+
+    socket.on('disconnect', () => {
+        console.log('User disconnected:', socket.id);
+    });
+});
 
 
 // This returns a Promise so we're just checking if everything went well
 mongoose.connect(process.env.MONGO_URI).then(() => {
     console.log('MongoDB connected succesfully');
 
-    app.listen(PORT, () => {
+    server.listen(PORT, () => {
         console.log(`Server running on port ${PORT}`);
     });
 }).catch ((error) => {

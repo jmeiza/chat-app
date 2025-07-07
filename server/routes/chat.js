@@ -1,10 +1,10 @@
 import express from 'express';
-import { verifyToken } from '../middleware/auth.js';
+import authMiddleware from '../middleware/auth.js';
 import Chat from '../models/chat.js';
 
 const router = express.Router();
 
-router.post('/', verifyToken, async (req, res) => {
+router.post('/', authMiddleware, async (req, res) => {
     const { userId } = req.body;
     const currentUserId = req.user.id;
 
@@ -26,7 +26,7 @@ router.post('/', verifyToken, async (req, res) => {
     }
 });
 
-router.get('/', verifyToken, async (req, res) => {
+router.get('/', authMiddleware, async (req, res) => {
     try {
         const chats = await Chat.find({
             members: {$in: [req.user.id] }
