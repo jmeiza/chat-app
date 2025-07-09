@@ -57,9 +57,23 @@ const ChatRoom = () => {
   };
   // End of sendMessage()
 
-  const handleSelectChat = (chat) => {
+  const handleSelectChat = async (chat) => {
     setSelectedChat(chat);
     socket.emit('join chat', chat._id);
+
+    try {
+      const token = localStorage.getItem('token');
+      if (!token) {
+        console.log('No token found, please login');
+        return;
+      }
+
+      const messagesData = await api.fetchMessages(chat._id, token);
+      setChatMessages(messagesData);
+    }
+    catch (error) {
+      console.error('Failed to fetch messages:', error);
+    }
   };
   // End of handleSelectChat()
 
