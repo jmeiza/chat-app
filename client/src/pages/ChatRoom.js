@@ -6,7 +6,9 @@ const ChatRoom = () => {
   const [chats, setChats] = useState([]);
   const [message, setMessage] = useState('');
   const [selectedChat, setSelectedChat] = useState(null);
+  const [chatMessages, setChatMessages] = useState([]);
 
+  // This useEffect is for fetching chats from the backend
   useEffect(() => {
     const fetchUserChats = async () => {
       const token = localStorage.getItem('token');
@@ -25,12 +27,16 @@ const ChatRoom = () => {
 
     fetchUserChats();
   }, []);
+  // End of useEffect()
 
+  // This useEffect is for displaying messages
   useEffect(() => {
     socket.connect();
 
-    socket.on('message', (message) => {
-      console.log('New message received:', message);
+    socket.on('message', (msg) => {
+      if (msg.chatId === selectedChat?._id) {
+        setChatMessages(prev => [...prev, msg]);
+      }
     });
 
     return () => {
@@ -38,6 +44,7 @@ const ChatRoom = () => {
       socket.disconnect();
     };
   }, []);
+  // End of useEffect
 
   const sendMessage = () => {
     if (!message.trim() || !selectedChat) return;
@@ -48,11 +55,13 @@ const ChatRoom = () => {
     });
     setMessage('');
   };
+  // End of sendMessage()
 
   const handleSelectChat = (chat) => {
     setSelectedChat(chat);
     socket.emit('join chat', chat._id);
   };
+  // End of handleSelectChat()
 
   return (
     <div>
@@ -71,13 +80,24 @@ const ChatRoom = () => {
           ))}
         </ul>
       )}
-      <div>
+      <div>   
         <input 
           type='text'
           placeholder='Type your message'
           value={message}
           onChange={(e) => setMessage(e.target.value)}/>
         <button onClick={sendMessage}>Send</button>
+      </div>
+      <div>
+        <h3>Messages</h3>
+        {chatMessages.length === 0 ? (
+          <p>No messages yet </p>) : (
+            <ul>
+              {chatMessages.map((msg, idx) => (
+                <li key={idx}>{msg.content}</li>
+              ))}
+            </ul>
+          )}
       </div>
     </div>
   );
