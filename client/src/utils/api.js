@@ -29,6 +29,12 @@ const fetchMessages = async (chatId, token) => {
     return await response.json();
 }
 
-export default { loginUser, registerUser, fetchChats, fetchMessages };
+const fetchCurrentUser = async (token) => {
+    const res = await axios.get('/me', {
+        headers: {Authorization: `Bearer ${token}`}
+    });
+    return res.data;
+};
+export default { loginUser, registerUser, fetchChats, fetchMessages, fetchCurrentUser };
 
 //All these help the frontend communicate with the backend by sending http requests to the backend. So when the user registers, the user's data is sent as a POST request to the backend which then processes the request and returns a response. Same thing for login and fetch chats

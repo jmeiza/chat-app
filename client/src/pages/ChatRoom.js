@@ -7,8 +7,9 @@ const ChatRoom = () => {
   const [message, setMessage] = useState('');
   const [selectedChat, setSelectedChat] = useState(null);
   const [chatMessages, setChatMessages] = useState([]);
+  const [currentUser, setCurrentUser] = useState(null);
 
-  // This useEffect is for fetching chats from the backend
+ ////////////////////01/////////////////////////////
   useEffect(() => {
     const fetchUserChats = async () => {
       const token = localStorage.getItem('token');
@@ -27,9 +28,25 @@ const ChatRoom = () => {
 
     fetchUserChats();
   }, []);
-  // End of useEffect()
+/////////////////////02/////////////////////////////////////
 
-  // This useEffect is for displaying messages
+  useEffect(() => {
+    const fetchCurrentUser = async () => {
+      const token = localStorage.getItem('token');
+      if (!token) return;
+
+      try {
+        const res = await api.fetchCurrentUser(token);
+        setCurrentUser(res);
+      }
+      catch (error){
+        console.error('Error fetching current user', error);
+      }
+    }
+
+    fetchCurrentUser();
+  }, []);
+/////////////////////03/////////////////////////////////////
   useEffect(() => {
     socket.connect();
 
@@ -44,8 +61,7 @@ const ChatRoom = () => {
       socket.disconnect();
     };
   }, []);
-  // End of useEffect
-
+/////////////////////04/////////////////////////////////////
   const sendMessage = () => {
     if (!message.trim() || !selectedChat) return;
     
@@ -55,8 +71,7 @@ const ChatRoom = () => {
     });
     setMessage('');
   };
-  // End of sendMessage()
-
+/////////////////////05/////////////////////////////////////
   const handleSelectChat = async (chat) => {
     setSelectedChat(chat);
     socket.emit('join chat', chat._id);
@@ -75,42 +90,49 @@ const ChatRoom = () => {
       console.error('Failed to fetch messages:', error);
     }
   };
-  // End of handleSelectChat()
+/////////////////////RETURN/////////////////////////////////////
 
   return (
-    <div>
-      <h2>Your Chats</h2>
+    <div className="w-80 bg-gray-100 p-4 rounded-md shadow-md">
+      <h2  className="text-xl font-semibold mb-4">Your Chats</h2>
       {chats.length === 0 ? (
-        <p>No chats found</p>
+        <p className="text-gray-500">No chats found</p>
       ) : (
         <ul>
           {chats.map((chat) => (
             <li 
               key={chat._id} 
               onClick={() => handleSelectChat(chat)}
-              style={{ cursor: 'pointer', fontWeight: selectedChat?._id === chat._id ? 'bold': 'normal' }}>
+              className={`cursor-pointer p-2 rounded ${ selectedChat?._id === chat._id ? 'bg-blue-500 text-white font-bold': 'bg-blue-500 text-white font-bold'}`}>
                 {chat.chatName || 'Unnamed Chat'}
             </li>
           ))}
         </ul>
       )}
-      <div>   
+
+      <div className="flex items-center gap-2 mt-4">   
         <input 
           type='text'
           placeholder='Type your message'
           value={message}
-          onChange={(e) => setMessage(e.target.value)}/>
-        <button onClick={sendMessage}>Send</button>
+          onChange={(e) => setMessage(e.target.value)}
+          className="flex-grow border border-gray-300 rounded-md px-3 py-2 focus:outline-none focus:ring-2 focus:ring-blue-400" />
+        <button 
+          onClick={sendMessage}
+          className="bg-blue-500 text-white font-bold">Send</button>
       </div>
-      <div>
-        <h3>Messages</h3>
-        {chatMessages.length === 0 ? (
-          <p>No messages yet </p>) : (
-            <ul>
-              {chatMessages.map((msg, idx) => (
-                <li key={idx}>{msg.content}</li>
-              ))}
-            </ul>
+
+      <div className="flex-grow overflow-y-auto p-4 bg-white rounded-md shadow-inner">
+        {currentUser && chatMessages.length === 0 ? (
+          <p className="text-gray-500">No messages yet </p>) : (
+            chatMessages.map((msg) => (
+                <div
+                  key={msg._id}
+                  className={`mb-2 p-2 rounded ${ msg.sender._id === currentUser._id ? "bg-blue-100 self-end" : "bg-gray-200 self-start"} max-w-xs`}>
+                    <p className="text-sm">{msg.content}</p>
+                    <span className="text-xs text-gray-500">{msg.sender.name}</span>
+                </div> 
+              ))
           )}
       </div>
     </div>
