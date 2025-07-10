@@ -8,6 +8,7 @@ import registerRoute from './routes/register.js';
 import loginRoute from './routes/login.js';
 import chatRoute from './routes/chat.js';
 import messageRoute from './routes/message.js';
+import userRoute from './routes/user.js';
 
 dotenv.config();
 const PORT = process.env.PORT;
@@ -30,6 +31,7 @@ app.use('/api/auth', registerRoute);
 app.use('/api/auth', loginRoute);
 app.use('/api/chats', chatRoute);
 app.use('/api/messages', messageRoute);
+app.use('/api/users', userRoute);
 
 io.on('connection', (socket) => {
     console.log('User connected:', socket.id);

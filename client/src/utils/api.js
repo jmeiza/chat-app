@@ -30,7 +30,7 @@ const fetchMessages = async (chatId, token) => {
 }
 
 const fetchCurrentUser = async (token) => {
-    const res = await axios.get('/me', {
+    const res = await axios.get('/users/me', {
         headers: {Authorization: `Bearer ${token}`}
     });
     return res.data;
