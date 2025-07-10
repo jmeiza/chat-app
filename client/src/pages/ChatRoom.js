@@ -1,4 +1,4 @@
-import { useState, useEffect } from 'react';
+import { useState, useEffect, useRef } from 'react';
 import api from '../utils/api';
 import socket from '../utils/socket';
 
@@ -8,8 +8,10 @@ const ChatRoom = () => {
   const [selectedChat, setSelectedChat] = useState(null);
   const [chatMessages, setChatMessages] = useState([]);
   const [currentUser, setCurrentUser] = useState(null);
+  
+  const messagesBoxRef = useRef(null);
 
- ////////////////////01/////////////////////////////
+ ////////////////////01/////Fetching chats from backend////////////////////////
   useEffect(() => {
     const fetchUserChats = async () => {
       const token = localStorage.getItem('token');
@@ -28,7 +30,7 @@ const ChatRoom = () => {
 
     fetchUserChats();
   }, []);
-/////////////////////02/////////////////////////////////////
+/////////////////////02//////////Fetch information about the logged in user///////////////////////////
 
   useEffect(() => {
     const fetchCurrentUser = async () => {
@@ -46,7 +48,7 @@ const ChatRoom = () => {
 
     fetchCurrentUser();
   }, []);
-/////////////////////03/////////////////////////////////////
+/////////////////////03//////////Listening for a message and adding the new message to the selected chat's messages///////////////////////////
   useEffect(() => {
     socket.connect();
 
@@ -61,7 +63,16 @@ const ChatRoom = () => {
       socket.disconnect();
     };
   }, []);
-/////////////////////04/////////////////////////////////////
+////////////////////04/////Automatically scrolls the page down when the user receives a new message////////////////////////////////////
+useEffect(() => {
+  const box = messagesBoxRef.current;
+  if (!box) return;
+
+  if (isUserAtBottom()) {
+    box.scrollTo({ top: box.scrollHeight, behavior: "smooth" });
+  }
+}, [chatMessages]);
+/////////////////////05///Emittinig a message to only members of a specific chat//////////////////////////////////
   const sendMessage = () => {
     if (!message.trim() || !selectedChat) return;
     
@@ -71,7 +82,7 @@ const ChatRoom = () => {
     });
     setMessage('');
   };
-/////////////////////05/////////////////////////////////////
+/////////////////////06/////Fecthing the messages of a selected chat////////////////////////////////
   const handleSelectChat = async (chat) => {
     setSelectedChat(chat);
     socket.emit('join chat', chat._id);
@@ -90,6 +101,15 @@ const ChatRoom = () => {
       console.error('Failed to fetch messages:', error);
     }
   };
+/////////////////07//////Checks if the user is at the bottom or implying that they are waiting for new messages/////////////////////////////////////
+const isUserAtBottom = () => {
+  const box = messagesBoxRef.current;
+  if (!box) return false;
+
+  const distanceFromBottom = box.scrollHeight - box.scrollTop - box.clientHeight;
+  return distanceFromBottom < 50;
+}
+
 /////////////////////RETURN/////////////////////////////////////
 
   return (
@@ -114,7 +134,10 @@ const ChatRoom = () => {
       </div>
       {/* Message panel */}
       <div className="flex flex-col w-2/3 bg-white rounded-lg shadow p-4">
-        <div className="flex-growflex-col overflow-y-auto p-4 bg-gray-100 rounded-md shadow-inner">  
+        <div 
+          ref={messagesBoxRef} 
+          className="flex-grow flex-col gap-2 overflow-y-auto p-4 bg-gray-100 rounded-md shadow-inner"
+        >  
           {currentUser && chatMessages.length === 0 ? (
             <p className="text-gray-500 text-center italic">No messages yet </p>
           ) : (
@@ -145,6 +168,9 @@ const ChatRoom = () => {
             value={message}
             onChange={(e) => setMessage(e.target.value)}
             className="flex-grow border border-gray-300 rounded-md px-3 py-2 focus:outline-none focus:ring-2 focus:ring-blue-400" 
+            onKeyDown={(e) => {
+              if (e.key === 'Enter') sendMessage();
+            }}
           />
           <button 
             onClick={sendMessage}
