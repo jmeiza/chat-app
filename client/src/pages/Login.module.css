@@ -1,0 +1,128 @@
+.container {
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column; 
+  align-items: center;
+  justify-content: center;
+  background: linear-gradient(135deg, #bfdbfe 0%, #c4b5fd 100%);
+  padding: 1rem;
+}
+
+.header {
+  font-size: 2.25rem; 
+  font-weight: 800;
+  color: #1d4ed8; 
+}
+
+.form {
+  background-color: #ffffff;
+  padding: 2rem;
+  border-radius: 1.25rem; 
+  box-shadow: 0 10px 25px rgba(59, 130, 246, 0.2); 
+  width: 100%;
+  max-width: 28rem; 
+}
+
+.title {
+  font-size: 1.5rem; 
+  font-weight: 700;
+  margin-bottom: 1.5rem;
+  text-align: center;
+  color: #2563eb; 
+}
+
+.label {
+  display: block;
+  margin-bottom: 0.5rem;
+  font-weight: 600;
+  color: #374151; 
+}
+
+.input {
+  width: 100%;
+  padding: 0.75rem;
+  margin-bottom: 1.5rem;
+  border: 1px solid #d1d5db; 
+  border-radius: 0.5rem;
+  font-size: 1rem;
+  outline: none;
+  transition: border-color 0.2s ease, box-shadow 0.2s ease;
+}
+
+.input:focus {
+  border-color: #3b82f6; 
+  box-shadow: 0 0 0 3px rgba(59, 130, 246, 0.3);
+}
+
+.button {
+  width: 100%;
+  padding: 0.75rem;
+  border: 1px solid #d1d5db;
+  border-radius: 0.5rem;
+  background-color: #3b82f6; 
+  color: white;
+  font-weight: 600;
+  font-size: 1rem;
+  cursor: pointer;
+  transition: background-color 0.2s ease;
+  margin-bottom: 1.5rem;
+}
+
+.button:hover {
+  background-color: #2563eb; 
+  border-color: #2563eb;
+}
+
+.registerText {
+  text-align: center;
+  font-size: 0.9rem;
+  color: #4b5563; 
+}
+
+.registerLink {
+  color: #2563eb;
+  font-weight: 600;
+  text-decoration: none;
+  margin-left: 0.25rem;
+}
+
+.registerLink:hover {
+  text-decoration: underline;
+}
+
+.typingHeader {
+  font-size: 3rem;           
+  font-weight: 900;          
+  color: #1d4ed8;
+  white-space: nowrap;
+  overflow: hidden;
+  width: 30ch;
+  border-right: 3px solid #1d4ed8;
+  margin-bottom: 3rem;       
+  animation: typing 3s steps(30, end) forwards, blink 0.75s step-end 5, hideCursor 0.1s ease 4s forwards;
+  text-align: center;
+}
+
+@keyframes typing {
+  from {
+    width: 0;
+  }
+  to {
+    width: 23ch;
+  }
+}
+
+@keyframes blink {
+  0%, 100% {
+    border-color: transparent;
+  }
+  50% {
+    border-color: #1d4ed8;
+  }
+}
+
+@keyframes hideCursor {
+  to {
+    border-right: none;
+  }
+}

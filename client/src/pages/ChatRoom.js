@@ -1,6 +1,7 @@
 import { useState, useEffect, useRef } from 'react';
 import api from '../utils/api';
 import socket from '../utils/socket';
+import styles from './ChatRoom.module.css';
 
 const ChatRoom = () => {
   const [chats, setChats] = useState([]);
@@ -113,19 +114,19 @@ const isUserAtBottom = () => {
 /////////////////////RETURN/////////////////////////////////////
 
   return (
-    <div className="flex h-[80vh] gap-4 p-4">
+    <div className={styles.container}>
       {/*Chat List */}
-      <div className="w-80 bg-gray-100 p-4 rounded-md shadow-md">
-        <h2 className="text-xl font-semibold mb-4">Your Chats</h2>
+      <div className={styles.sidebar}>
+        <h2 className={styles.sidebarTitle}>Your Chats</h2>
         {chats.length === 0 ? (
-          <p className="text-gray-500">No chats found</p>
+          <p className={styles.emptyMessage}>No chats found</p>
         ) : (
-            <ul className="max-h-64 overflow-y-auto">
+            <ul className={styles.chatList}>
               {chats.map((chat) => (
                 <li 
                   key={chat._id} 
                   onClick={() => handleSelectChat(chat)}
-                  className={`cursor-pointer p-3 rounded mb-1 ${ selectedChat?._id === chat._id ? 'bg-blue-600 text-white font-bold': 'bg-gray-100 hover:bg-gray-200'}`}>
+                  className={`${styles.chatItem} ${ selectedChat?._id === chat._id ? styles.chatItemSelected: ''}`}>
                     {chat.chatName || 'Unnamed Chat'}
                 </li>
               ))}
@@ -133,49 +134,36 @@ const isUserAtBottom = () => {
         )}
       </div>
       {/* Message panel */}
-      <div className="flex flex-col w-2/3 bg-white rounded-lg shadow p-4">
-        <div 
-          ref={messagesBoxRef} 
-          className="flex-grow flex-col gap-2 overflow-y-auto p-4 bg-gray-100 rounded-md shadow-inner"
-        >  
+      <div className={styles.messagePanel}>
+        <div ref={messagesBoxRef} className={styles.messagesBox}>  
           {currentUser && chatMessages.length === 0 ? (
-            <p className="text-gray-500 text-center italic">No messages yet </p>
+            <p className={styles.emptyMessage}>No messages yet </p>
           ) : (
             chatMessages.map((msg) => (
               <div
                 key={msg._id}
-                className={`mb-2 p-3 rounded-lg max-w-xs break-words 
-                  ${ msg.sender._id === currentUser._id
-                    ? "bg-blue-400 text-white self-end"
-                    : "bg-gray-300 text-gray-800 self-start"}`
-                }
-                style={{ 
-                  alignSelf:
-                    msg.sender._id === currentUser._id ? "flex-end" : "flex-start" 
-                }} 
+                className={`${styles.message} 
+                  ${ msg.sender._id === currentUser._id ? styles.sent : styles.received}`} 
               > 
-                <p className="text-sm">{msg.content}</p>
-                <span className="text-xs italic">{msg.sender.name}</span>
+                <p>{msg.content}</p>
+                <span className={styles.messageSender}>{msg.sender.name}</span>
               </div> 
             ))
           )}
         </div>
         
-        <div className="flex items-center gap-2 mt-4">
+        <div className={styles.inputContainer}>
           <input 
             type='text'
             placeholder='Type your message'
             value={message}
             onChange={(e) => setMessage(e.target.value)}
-            className="flex-grow border border-gray-300 rounded-md px-3 py-2 focus:outline-none focus:ring-2 focus:ring-blue-400" 
+            className={styles.inputField} 
             onKeyDown={(e) => {
               if (e.key === 'Enter') sendMessage();
             }}
           />
-          <button 
-            onClick={sendMessage}
-            className="bg-blue-500 hover:bg-blue-600 text-white font-semibold px-4 py-2 rounded-lg transition"
-          >
+          <button onClick={sendMessage} className={styles.sendButton} >
             Send
           </button>
         </div>

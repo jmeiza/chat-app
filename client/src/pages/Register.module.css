@@ -1,0 +1,136 @@
+.container {
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+  align-items: center; 
+  justify-content: center;
+  background: linear-gradient(135deg, #1e293b 0%, #0f172a 100%);
+  padding: 1rem;
+}
+
+.headerDark {
+  font-size: 2.25rem;
+  font-weight: 800;
+  color: #93c5fd;
+}
+
+.form {
+  background-color: #334155; 
+  padding: 2rem;
+  border-radius: 1.25rem; 
+  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.7);
+  width: 100%;
+  max-width: 28rem; 
+  color: #e0e7ff;
+}
+
+.title {
+  font-size: 1.5rem;
+  font-weight: 700;
+  margin-bottom: 1.5rem;
+  text-align: center;
+  color: #60a5fa; 
+}
+
+.label {
+  display: block;
+  margin-bottom: 0.5rem;
+  font-weight: 600;
+  color: #cbd5e1; 
+}
+
+.input {
+  width: 100%;
+  padding: 0.75rem;
+  margin-bottom: 1.5rem;
+  border: 1px solid #475569; 
+  border-radius: 0.5rem;
+  background-color: #1e293b; 
+  color: #e0e7ff;
+  font-size: 1rem;
+  outline: none;
+  transition: border-color 0.2s ease, box-shadow 0.2s ease;
+}
+
+.input::placeholder {
+  color: #94a3b8; 
+}
+
+.input:focus {
+  border-color: #3b82f6; 
+  box-shadow: 0 0 0 3px rgba(59, 130, 246, 0.5);
+  background-color: #1e293b;
+  color: #e0e7ff;
+}
+
+.button {
+  width: 100%;
+  padding: 0.75rem;
+  border: none;
+  border-radius: 0.5rem;
+  background-color: #3b82f6; 
+  color: white;
+  font-weight: 600;
+  font-size: 1rem;
+  cursor: pointer;
+  transition: background-color 0.2s ease;
+  margin-bottom: 1.5rem;
+}
+
+.button:hover {
+  background-color: #2563eb; 
+}
+
+.loginText {
+  text-align: center;
+  font-size: 0.9rem;
+  color: #94a3b8; 
+}
+
+.loginLink {
+  color: #60a5fa; 
+  font-weight: 600;
+  text-decoration: none;
+  margin-left: 0.25rem;
+}
+
+.loginLink:hover {
+  text-decoration: underline;
+}
+
+.typingHeader {
+  font-size: 3rem;
+  font-weight: 900;
+  color: #93c5fd;
+  white-space: nowrap;
+  overflow: hidden;
+  width: 30ch; 
+  border-right: 3px solid #93c5fd;
+  margin-bottom: 3rem;
+  animation: typing 3s steps(30, end) forwards, blink 0.75s step-end 5, hideCursor 0.1s ease 4.5s forwards;
+  text-align: center;
+}
+
+@keyframes typing {
+  from {
+    width: 0;
+  }
+  to {
+    width: 23ch;
+  }
+}
+
+@keyframes blink {
+  0%, 100% {
+    border-color: transparent;
+  }
+  50% {
+    border-color: #93c5fd;
+  }
+}
+
+@keyframes hideCursor {
+  to {
+    border-right: none;
+  }
+}

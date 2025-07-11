@@ -1,0 +1,157 @@
+.container {
+  display: flex;
+  height: 80vh;
+  gap: 1rem;
+  padding: 1rem;
+  background-color: #f9fafb;
+  font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+}
+
+.sidebar {
+  width: 20rem;
+  background-color: #ffffff;
+  padding: 1rem;
+  border-radius: 0.5rem;
+  box-shadow: 0 0 10px rgb(0 0 0 / 0.1);
+  display: flex;
+  flex-direction: column;
+}
+
+.chatList {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+  overflow-y: auto;
+  flex-grow: 1;
+}
+
+.chatItem {
+  padding: 0.75rem 1rem;
+  margin-bottom: 0.5rem;
+  border-radius: 0.4rem;
+  cursor: pointer;
+  background-color: #f3f4f6;
+  transition: background-color 0.2s ease;
+  user-select: none;
+}
+
+.chatItem:hover {
+  background-color: #e5e7eb;
+}
+
+.chatItemSelected {
+  background-color: #3b82f6;
+  color: white;
+  font-weight: 600;
+}
+
+/* Message panel container overrides*/
+.messagePanel {
+  flex-grow: 1;
+  display: flex;
+  flex-direction: column;
+  width: 66.66%; /* 2/3 */
+  background-color: #ffffff;
+  border-radius: 0.5rem;
+  box-shadow: 0 0 10px rgb(0 0 0 / 0.1);
+  padding: 1rem;
+}
+
+/* Messages container */
+.messagesBox {
+  flex-grow: 1;
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+  overflow-y: auto;
+  padding: 1rem;
+  background-color: #f3f4f6;
+  border-radius: 0.5rem;
+  box-shadow: inset 0 0 5px rgb(0 0 0 / 0.05);
+}
+
+/* Individual message bubbles */
+.message {
+  max-width: 70%;
+  padding: 0.75rem 1rem;
+  border-radius: 1rem;
+  word-wrap: break-word;
+  display: inline-block;
+  position: relative;
+}
+
+.messageSender {
+  font-size: 0.75rem;
+  font-style: italic;
+  margin-top: 0.25rem;
+  color: #374151;
+}
+
+/* Messages sent by current user */
+.message.sent {
+  background-color: #3b82f6;
+  color: white;
+  align-self: flex-end;
+  border-bottom-right-radius: 0.2rem;
+}
+
+/* Messages received */
+.message.received {
+  background-color: #e5e7eb;
+  color: #111827;
+  align-self: flex-start;
+  border-bottom-left-radius: 0.2rem;
+}
+
+/* Input and button container */
+.inputContainer {
+  display: flex;
+  gap: 0.5rem;
+  margin-top: 1rem;
+}
+
+/* Text input styles */
+.inputField {
+  flex-grow: 1;
+  border: 1px solid #d1d5db;
+  border-radius: 0.5rem;
+  padding: 0.5rem 1rem;
+  font-size: 1rem;
+  outline: none;
+  transition: border-color 0.2s ease;
+}
+
+.inputField:focus {
+  border-color: #3b82f6;
+  box-shadow: 0 0 0 2px rgb(59 130 246 / 0.3);
+}
+
+/* Send button */
+.sendButton {
+  background-color: #3b82f6;
+  color: white;
+  font-weight: 600;
+  padding: 0.5rem 1.25rem;
+  border-radius: 0.5rem;
+  border: none;
+  cursor: pointer;
+  transition: background-color 0.2s ease;
+}
+
+.sendButton:hover {
+  background-color: #2563eb;
+}
+
+.sidebarTitle {
+  font-size: 1.25rem; 
+  font-weight: 600;  
+  margin-bottom: 1rem;
+  color: #111827;
+}
+
+.emptyMessage {
+  color: #6b7280; 
+  font-style: italic;
+  text-align: center;
+  margin-top: 1rem;
+}
