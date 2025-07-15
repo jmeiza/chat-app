@@ -28,7 +28,7 @@ const Register = () => {
       <h1 className={styles.typingHeader}>Welcome to JM's Chat App</h1>
       
       <form onSubmit={handleSubmit} className={styles.form}>
-        <h2 class className={styles.title}>Register</h2>
+        <h2 className={styles.title}>Register</h2>
         
         <label className={styles.label} htmlFor="name">Name</label>
         <input 

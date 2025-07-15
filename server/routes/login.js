@@ -7,7 +7,7 @@ const router = express.Router();
 
 
 router.post('/login', async (req, res) => {
-    const { username, email, password } = req.body;
+    const { name, email, password } = req.body;
 
     if (!email || !password) {
         return res.status(400).json({ message: 'Please provide all the required fields.'});
