@@ -1,0 +1,88 @@
+.messagePanel {
+  flex-grow: 1;
+  display: flex;
+  flex-direction: column;
+  background-color: #1f2937;
+  border-radius: 0.5rem;
+  box-shadow: 0 0 10px rgba(0, 0, 0, 0.3);
+  padding: 1rem;
+}
+
+.messagesBox {
+  flex-grow: 1;
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+  overflow-y: auto;
+  padding: 1rem;
+  background-color: #111827;
+  border-radius: 0.5rem;
+  box-shadow: inset 0 0 5px rgb(0 0 0 / 0.3);
+}
+
+.message {
+  max-width: 70%;
+  padding: 0.75rem 1rem;
+  border-radius: 1rem;
+  word-wrap: break-word;
+  display: inline-block;
+  position: relative;
+}
+
+.messageSender {
+  font-size: 0.75rem;
+  font-style: italic;
+  margin-top: 0.25rem;
+  color: #9ca3af;
+}
+
+.message.sent {
+  background-color: #3b82f6;
+  color: white;
+  align-self: flex-end;
+  border-bottom-right-radius: 0.2rem;
+}
+
+.message.received {
+  background-color: #374151;
+  color: #f9fafb;
+  align-self: flex-start;
+  border-bottom-left-radius: 0.2rem;
+}
+
+.inputContainer {
+  display: flex;
+  gap: 0.5rem;
+  margin-top: 1rem;
+}
+
+.inputField {
+  flex-grow: 1;
+  border: 1px solid #4b5563;
+  border-radius: 0.5rem;
+  padding: 0.5rem 1rem;
+  font-size: 1rem;
+  background-color: #111827;
+  color: #f9fafb;
+  outline: none;
+}
+
+.sendButton {
+  background-color: #3b82f6;
+  color: white;
+  font-weight: 600;
+  padding: 0.5rem 1.25rem;
+  border-radius: 0.5rem;
+  border: none;
+  cursor: pointer;
+  transition: background-color 0.2s ease;
+}
+
+.sendButton:hover {
+  background-color: #2563eb;
+}
+
+.inputField:focus {
+  border-color: #3b82f6;
+  box-shadow: 0 0 0 2px rgba(59, 130, 246, 0.5);;
+}

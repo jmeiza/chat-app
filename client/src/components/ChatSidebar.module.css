@@ -1,0 +1,50 @@
+.sidebar {
+  width: 20rem;
+  background-color: #374151; /* slightly lighter */
+  padding: 1rem;
+  border-radius: 0.5rem;
+  box-shadow: 0 0 10px rgba(0, 0, 0, 0.2);
+}
+
+.sidebarTitle {
+  font-size: 1.25rem;
+  font-weight: 600;
+  margin-bottom: 1rem;
+  color: #e5e7eb;
+}
+
+.chatList {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+  overflow-y: auto;
+  flex-grow: 1;
+}
+
+.chatItem {
+  padding: 0.75rem 1rem;
+  margin-bottom: 0.5rem;
+  border-radius: 0.4rem;
+  cursor: pointer;
+  background-color: #4b5563;
+  transition: background-color 0.2s ease;
+  user-select: none;
+  color: #f3f4f6;
+}
+
+.chatItem:hover {
+  background-color: #6b7280;
+}
+
+.chatItemSelected {
+  background-color: #3b82f6;
+  color: white;
+  font-weight: 600;
+}
+
+.emptyMessage {
+  color: #9ca3af;
+  font-style: italic;
+  text-align: center;
+  margin-top: 1rem;
+}

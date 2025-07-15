@@ -1,7 +1,9 @@
-import { useState, useEffect, useRef } from 'react';
+import { useState, useEffect } from 'react';
 import api from '../utils/api';
 import socket from '../utils/socket';
 import styles from './ChatRoom.module.css';
+import ChatSidebar from '../components/ChatSidebar';
+import MessagePanel from '../components/MessagePanel';
 
 const ChatRoom = () => {
   const [chats, setChats] = useState([]);
@@ -10,8 +12,6 @@ const ChatRoom = () => {
   const [chatMessages, setChatMessages] = useState([]);
   const [currentUser, setCurrentUser] = useState(null);
   
-  const messagesBoxRef = useRef(null);
-
  ////////////////////01/////Fetching chats from backend////////////////////////
   useEffect(() => {
     const fetchUserChats = async () => {
@@ -31,7 +31,8 @@ const ChatRoom = () => {
 
     fetchUserChats();
   }, []);
-/////////////////////02//////////Fetch information about the logged in user///////////////////////////
+
+/////////////////////02/////Fetch information about the logged in user///////////////////////////
 
   useEffect(() => {
     const fetchCurrentUser = async () => {
@@ -64,16 +65,7 @@ const ChatRoom = () => {
       socket.disconnect();
     };
   }, []);
-////////////////////04/////Automatically scrolls the page down when the user receives a new message////////////////////////////////////
-useEffect(() => {
-  const box = messagesBoxRef.current;
-  if (!box) return;
-
-  if (isUserAtBottom()) {
-    box.scrollTo({ top: box.scrollHeight, behavior: "smooth" });
-  }
-}, [chatMessages]);
-/////////////////////05///Emittinig a message to only members of a specific chat//////////////////////////////////
+/////////////////////04///Emittinig a message to only members of a specific chat//////////////////////////////////
   const sendMessage = () => {
     if (!message.trim() || !selectedChat) return;
     
@@ -83,7 +75,7 @@ useEffect(() => {
     });
     setMessage('');
   };
-/////////////////////06/////Fecthing the messages of a selected chat////////////////////////////////
+/////////////////////05/////Fecthing the messages of a selected chat////////////////////////////////
   const handleSelectChat = async (chat) => {
     setSelectedChat(chat);
     socket.emit('join chat', chat._id);
@@ -102,72 +94,25 @@ useEffect(() => {
       console.error('Failed to fetch messages:', error);
     }
   };
-/////////////////07//////Checks if the user is at the bottom or implying that they are waiting for new messages/////////////////////////////////////
-const isUserAtBottom = () => {
-  const box = messagesBoxRef.current;
-  if (!box) return false;
-
-  const distanceFromBottom = box.scrollHeight - box.scrollTop - box.clientHeight;
-  return distanceFromBottom < 50;
-}
 
 /////////////////////RETURN/////////////////////////////////////
 
   return (
     <div className={styles.container}>
-      {/*Chat List */}
-      <div className={styles.sidebar}>
-        <h2 className={styles.sidebarTitle}>Your Chats</h2>
-        {chats.length === 0 ? (
-          <p className={styles.emptyMessage}>No chats found</p>
-        ) : (
-            <ul className={styles.chatList}>
-              {chats.map((chat) => (
-                <li 
-                  key={chat._id} 
-                  onClick={() => handleSelectChat(chat)}
-                  className={`${styles.chatItem} ${ selectedChat?._id === chat._id ? styles.chatItemSelected: ''}`}>
-                    {chat.chatName || 'Unnamed Chat'}
-                </li>
-              ))}
-            </ul>
-        )}
-      </div>
-      {/* Message panel */}
-      <div className={styles.messagePanel}>
-        <div ref={messagesBoxRef} className={styles.messagesBox}>  
-          {currentUser && chatMessages.length === 0 ? (
-            <p className={styles.emptyMessage}>No messages yet </p>
-          ) : (
-            chatMessages.map((msg) => (
-              <div
-                key={msg._id}
-                className={`${styles.message} 
-                  ${ msg.sender._id === currentUser._id ? styles.sent : styles.received}`} 
-              > 
-                <p>{msg.content}</p>
-                <span className={styles.messageSender}>{msg.sender.name}</span>
-              </div> 
-            ))
-          )}
-        </div>
-        
-        <div className={styles.inputContainer}>
-          <input 
-            type='text'
-            placeholder='Type your message'
-            value={message}
-            onChange={(e) => setMessage(e.target.value)}
-            className={styles.inputField} 
-            onKeyDown={(e) => {
-              if (e.key === 'Enter') sendMessage();
-            }}
-          />
-          <button onClick={sendMessage} className={styles.sendButton} >
-            Send
-          </button>
-        </div>
-      </div>
+      <ChatSidebar
+        chats={chats}
+        selectedChat={selectedChat}
+        handleSelectChat={handleSelectChat}
+      />
+      
+      <MessagePanel
+        chatMessages={chatMessages}
+        currentUser={currentUser}
+        message={message}
+        setMessage={setMessage}
+        sendMessage={sendMessage}
+      />
+
     </div>
   );
 };
