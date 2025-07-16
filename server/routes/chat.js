@@ -11,7 +11,12 @@ router.post('/', authMiddleware, async (req, res) => {
 
     try {
         //Find the user by their username
-        const targetUser = await User.findOne({ username });
+        const targetUser = await User.findOne({ 
+            $or: [
+                { username: username },
+                { name: username }
+            ]
+        });
 
         if (!targetUser) {
             return res.status(404).json({ error: 'User not found' });
@@ -20,7 +25,7 @@ router.post('/', authMiddleware, async (req, res) => {
         const userId = targetUser._id;
 
         // Prevent chatting with yourself
-        if (userId.toString() === currentUserId) {
+        if (userId.toString() === currentUserId.toString()) {
             return res.status(400).json({ error: "You can't chat with yourself" });
         }
 
