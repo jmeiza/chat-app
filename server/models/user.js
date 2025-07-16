@@ -3,7 +3,7 @@ import mongoose from "mongoose";
 //Schema: like a bleueprint for how data should be stored in the mongoose database
 
 const userSchema = new mongoose.Schema({
-    name: {
+    username: {
         type: String,
         required: true,
         unique: true,

@@ -4,7 +4,7 @@ import api from '../utils/api';
 import styles from './Register.module.css';
 
 const Register = () => {
-  const [name, setName] = useState('');
+  const [username, setusername] = useState('');
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
   const navigate = useNavigate('')
@@ -13,7 +13,7 @@ const Register = () => {
     e.preventDefault();
     
     try {
-      const data = await api.registerUser({ name, email, password });
+      const data = await api.registerUser({ username, email, password });
       localStorage.setItem('token', data.token);
       navigate('/chat');
     }
@@ -24,44 +24,44 @@ const Register = () => {
   };
 
   return (
-    <div className={styles.container}>
-      <h1 className={styles.typingHeader}>Welcome to JM's Chat App</h1>
+    <div classusername={styles.container}>
+      <h1 classusername={styles.typingHeader}>Welcome to JM's Chat App</h1>
       
-      <form onSubmit={handleSubmit} className={styles.form}>
-        <h2 className={styles.title}>Register</h2>
+      <form onSubmit={handleSubmit} classusername={styles.form}>
+        <h2 classusername={styles.title}>Register</h2>
         
-        <label className={styles.label} htmlFor="name">Name</label>
+        <label classusername={styles.label} htmlFor="username">username</label>
         <input 
           type="text" 
-          placeholder="Your full name"
-          className={styles.input} 
-          value={name} 
-          onChange={ (e) => setName(e.target.value)} 
+          placeholder="Your full username"
+          classusername={styles.input} 
+          value={username} 
+          onChange={ (e) => setusername(e.target.value)} 
           required />
         
-        <label className={styles.label} htmlFor="email">Email</label>
+        <label classusername={styles.label} htmlFor="email">Email</label>
         <input 
           type="email" 
           placeholder="Email"
-          className={styles.input}
+          classusername={styles.input}
           value={email} 
           onChange={ (e) => setEmail(e.target.value)} 
           required />
 
-        <label className={styles.label} htmlFor='password'>Password</label>
+        <label classusername={styles.label} htmlFor='password'>Password</label>
         <input 
           type="password" 
           placeholder="Password" 
-          className={styles.input}
+          classusername={styles.input}
           value={password} 
           onChange={ (e) => setPassword(e.target.value)} 
           required/>
    
-        <button type="submit" className={styles.button}>Register</button>
+        <button type="submit" classusername={styles.button}>Register</button>
 
-        <p className={styles.loginText}>
+        <p classusername={styles.loginText}>
           Already have an account?{' '}
-          <Link to="/login" className={styles.loginLink}>Login here</Link>
+          <Link to="/login" classusername={styles.loginLink}>Login here</Link>
         </p>
       </form>
     </div>

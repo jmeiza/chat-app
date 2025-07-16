@@ -16,13 +16,13 @@ const registerUser = async (userData) => {
 };
 
 const fetchChats = async (token) => {
-    const response = await axios.get(`${API_BASE_URL}/chat`, { headers: { Authorization: `Bearer ${token}` },
+    const response = await axios.get(`${API_BASE_URL}/chats`, { headers: { Authorization: `Bearer ${token}` },
     });
     return response.data;
 };
 
 const fetchMessages = async (chatId, token) => {
-    const response = await fetch(`${API_BASE_URL}/messages/${chatId}`, {
+    const response = await axios.get(`${API_BASE_URL}/messages/${chatId}`, {
         headers: { Authorization: `Bearer ${token}` },
     });
     if (!response.ok) throw new Error('Failed to fetch messages');
@@ -30,7 +30,7 @@ const fetchMessages = async (chatId, token) => {
 }
 
 const fetchCurrentUser = async (token) => {
-    const res = await axios.get('/users/me', {
+    const res = await axios.get(`${API_BASE_URL}/users/me`, {
         headers: {Authorization: `Bearer ${token}`}
     });
     return res.data;

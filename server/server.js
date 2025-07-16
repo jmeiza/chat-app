@@ -33,6 +33,16 @@ app.use('/api/chats', chatRoute);
 app.use('/api/messages', messageRoute);
 app.use('/api/users', userRoute);
 
+app.use((req, res) => {
+  res.status(404).json({ error: 'Route not found' });
+});
+
+app.use((err, req, res, next) => {
+  console.error('Unhandled error:', err);
+  res.status(500).json({ error: 'Something went wrong' });
+});
+
+
 io.on('connection', (socket) => {
     console.log('User connected:', socket.id);
 

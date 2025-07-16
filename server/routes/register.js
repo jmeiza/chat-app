@@ -6,27 +6,27 @@ const router = express.Router();
 
 
 router.post('/register', async (req, res) => {
-    const { name, email, password } = req.body;
+    const { username, email, password } = req.body;
 
     // Basic validation
-    if (!name || !email || !password) {
+    if (!username || !email || !password) {
         return res.status(400).json({ message: 'Please provide all the required fields.'});
     }
 
     try {
         const existingUser = await User.findOne({
-            $or: [{ email }, { name }]
+            $or: [{ email }, { username }]
         });
 
         if (existingUser) {
-            return res.status(409).json({ message: 'Email or Name is taken'})
+            return res.status(409).json({ message: 'Email or Username is taken'})
         }
 
         const salt = await bcrypt.genSalt(10);
         const hashedPassword = await bcrypt.hash(password, salt);
 
         const newUser = new User({
-            name,
+            username,
             email,
             password: hashedPassword
         });

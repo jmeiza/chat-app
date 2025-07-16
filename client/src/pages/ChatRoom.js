@@ -103,6 +103,7 @@ const ChatRoom = () => {
         chats={chats}
         selectedChat={selectedChat}
         handleSelectChat={handleSelectChat}
+        currentUser={currentUser} 
       />
       
       <MessagePanel
