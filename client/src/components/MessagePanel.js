@@ -17,9 +17,8 @@ const MessagePanel = ({ chatMessages, currentUser, message, setMessage, sendMess
         const box = messagesBoxRef.current;
         if (!box) return;
 
-        if (isUserAtBottom()) {
-            box.scrollTo({ top: box.scrollHeight, behavior: "smooth" });
-        }
+        box.scrollTo({ top: box.scrollHeight, behavior: "smooth" });
+        
     }, [chatMessages]);
 
     return (
