@@ -37,6 +37,14 @@ const ChatSidebar = ({ chats, selectedChat, handleSelectChat, setChats, currentU
       setLoading(false);
     }
   };
+
+  const getChatName = (chat) => {
+    if (chat.isGroupChat){
+      return chat.name || 'Unamed Chat';
+    }
+      const otherUser = chat.members.find(user => user._id !== currentUser._id);
+      return otherUser?.name || otherUser?.username || 'Unamed Chat';
+  };
   
   return (
       <div className={styles.sidebar}>
@@ -79,7 +87,7 @@ const ChatSidebar = ({ chats, selectedChat, handleSelectChat, setChats, currentU
                   key={chat._id} 
                   onClick={() => handleSelectChat(chat)}
                   className={`${styles.chatItem} ${ selectedChat?._id === chat._id ? styles.chatItemSelected: ''}`}>
-                    {chat.chatName || 'Unnamed Chat'}
+                    {getChatName(chat)}
                 </li>
               ))}
             </ul>

@@ -30,7 +30,7 @@ const ChatRoom = () => {
     };
 
     fetchUserChats();
-  }, []);
+  }, [selectedChat]);
 
 /////////////////////02/////Fetch information about the logged in user///////////////////////////
 
@@ -66,14 +66,41 @@ const ChatRoom = () => {
     };
   }, []);
 /////////////////////04///Emittinig a message to only members of a specific chat//////////////////////////////////
-  const sendMessage = () => {
+  const sendMessage = async () => {
     if (!message.trim() || !selectedChat) return;
     
-    socket.emit('sendMessage', {
-      chatId: selectedChat._id,
-      content: message,
-    });
-    setMessage('');
+    try {
+      const token = localStorage.getItem('token');
+      if (!token) {
+        console.log('No token found, please login');
+        return;
+      }
+
+      const response = await fetch('http://localhost:8000/api/messages', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+          Authorization: `Bearer ${token}`,
+        },
+        body: JSON.stringify({
+          chatId: selectedChat._id,
+          content: message,
+        }),
+      });
+
+      if (!response.ok) {
+        throw new Error('Failed to send message');
+      }
+      const savedMessage = await response.json();
+
+      socket.emit('sendMessage', savedMessage);
+      setChatMessages(prev => [...prev, savedMessage]);
+
+      setMessage('');
+    }
+    catch (error) {
+      console.error('Error sending message:', error);
+    }
   };
 /////////////////////05/////Fecthing the messages of a selected chat////////////////////////////////
   const handleSelectChat = async (chat) => {
@@ -103,6 +130,7 @@ const ChatRoom = () => {
         chats={chats}
         selectedChat={selectedChat}
         handleSelectChat={handleSelectChat}
+        setChats={setChats}
         currentUser={currentUser} 
       />
       

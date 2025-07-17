@@ -24,44 +24,44 @@ const Register = () => {
   };
 
   return (
-    <div classusername={styles.container}>
-      <h1 classusername={styles.typingHeader}>Welcome to JM's Chat App</h1>
+    <div className={styles.container}>
+      <h1 className={styles.typingHeader}>Welcome to JM's Chat App</h1>
       
-      <form onSubmit={handleSubmit} classusername={styles.form}>
-        <h2 classusername={styles.title}>Register</h2>
+      <form onSubmit={handleSubmit} className={styles.form}>
+        <h2 className={styles.title}>Register</h2>
         
-        <label classusername={styles.label} htmlFor="username">username</label>
+        <label className={styles.label} htmlFor="username">username</label>
         <input 
           type="text" 
           placeholder="Your full username"
-          classusername={styles.input} 
+          className={styles.input} 
           value={username} 
           onChange={ (e) => setusername(e.target.value)} 
           required />
         
-        <label classusername={styles.label} htmlFor="email">Email</label>
+        <label className={styles.label} htmlFor="email">Email</label>
         <input 
           type="email" 
           placeholder="Email"
-          classusername={styles.input}
+          className={styles.input}
           value={email} 
           onChange={ (e) => setEmail(e.target.value)} 
           required />
 
-        <label classusername={styles.label} htmlFor='password'>Password</label>
+        <label className={styles.label} htmlFor='password'>Password</label>
         <input 
           type="password" 
           placeholder="Password" 
-          classusername={styles.input}
+          className={styles.input}
           value={password} 
           onChange={ (e) => setPassword(e.target.value)} 
           required/>
    
-        <button type="submit" classusername={styles.button}>Register</button>
+        <button type="submit" className={styles.button}>Register</button>
 
-        <p classusername={styles.loginText}>
+        <p className={styles.loginText}>
           Already have an account?{' '}
-          <Link to="/login" classusername={styles.loginLink}>Login here</Link>
+          <Link to="/login" className={styles.loginLink}>Login here</Link>
         </p>
       </form>
     </div>

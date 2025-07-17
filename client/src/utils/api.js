@@ -22,11 +22,16 @@ const fetchChats = async (token) => {
 };
 
 const fetchMessages = async (chatId, token) => {
-    const response = await axios.get(`${API_BASE_URL}/messages/${chatId}`, {
-        headers: { Authorization: `Bearer ${token}` },
-    });
-    if (!response.ok) throw new Error('Failed to fetch messages');
-    return await response.json();
+    try {
+        const response = await axios.get(`${API_BASE_URL}/messages/${chatId}`, {
+            headers: { Authorization: `Bearer ${token}` },
+        });
+        return response.data
+    }
+    catch(error) {
+        console.error('fetchMessages error:', error?.respnse?.data || error.message);
+        throw new Error('Failed to fetch messages');
+    }
 }
 
 const fetchCurrentUser = async (token) => {
