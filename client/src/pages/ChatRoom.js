@@ -76,7 +76,7 @@ const ChatRoom = () => {
         return;
       }
 
-      const response = await fetch('http://localhost:8000/api/messages', {
+      const response = await fetch(`${process.env.REACT_APP_API_URL}/api/messages`, {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',

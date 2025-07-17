@@ -5,14 +5,6 @@ import styles from './MessagePanel.module.css';
 const MessagePanel = ({ chatMessages, currentUser, message, setMessage, sendMessage }) => {
     const messagesBoxRef = useRef(null);
 
-    const isUserAtBottom = () => {
-        const box = messagesBoxRef.current;
-        if (!box) return false;
-
-        const distanceFromBottom = box.scrollHeight - box.scrollTop - box.clientHeight;
-        return distanceFromBottom < 50;
-    };
-
     useEffect(() => {
         const box = messagesBoxRef.current;
         if (!box) return;

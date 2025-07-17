@@ -18,7 +18,7 @@ const ChatSidebar = ({ chats, selectedChat, handleSelectChat, setChats, currentU
       setLoading(true);
       setError('');
 
-      const { data } = await axios.post('http://localhost:8000/api/chats',
+      const { data } = await axios.post(`${process.env.REACT_APP_API_URL}/api/chats`,
         { username : nameInput },
         { headers: { Authorization: `Bearer ${token}` } }
       );
