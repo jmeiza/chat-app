@@ -32,6 +32,7 @@ A modern full-stack chat application with real-time messaging, built using the M
 ---
 
 ## 📁 Project Structure
+<pre>```
 chat-app/
 │
 ├── server/ # Node/Express API
@@ -45,7 +46,7 @@ chat-app/
 │ ├── pages/
 │ ├── utils/
 │ └── App.js
-
+```</pre>
 ---
 
 ## 🧪 Running Locally
