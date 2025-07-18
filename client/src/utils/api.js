@@ -6,24 +6,24 @@ const API_BASE_URL = 'http://localhost:8000/api';
 
 //Login user
 const loginUser = async (credentials) => {
-    const response = await axios.post(`${process.env.REACT_APP_API_URL}/auth/login`, credentials);
+    const response = await axios.post(`${process.env.REACT_APP_API_URL}/api/auth/login`, credentials);
     return response.data;
 };
 
 const registerUser = async (userData) => {
-    const response = await axios.post(`${process.env.REACT_APP_API_URL}/auth/register`, userData);
+    const response = await axios.post(`${process.env.REACT_APP_API_URL}/api/auth/register`, userData);
     return response.data;
 };
 
 const fetchChats = async (token) => {
-    const response = await axios.get(`${process.env.REACT_APP_API_URL}/chats`, { headers: { Authorization: `Bearer ${token}` },
+    const response = await axios.get(`${process.env.REACT_APP_API_URL}/api/chats`, { headers: { Authorization: `Bearer ${token}` },
     });
     return response.data;
 };
 
 const fetchMessages = async (chatId, token) => {
     try {
-        const response = await axios.get(`${process.env.REACT_APP_API_URL}/messages/${chatId}`, {
+        const response = await axios.get(`${process.env.REACT_APP_API_URL}/api/messages/${chatId}`, {
             headers: { Authorization: `Bearer ${token}` },
         });
         return response.data
@@ -35,7 +35,7 @@ const fetchMessages = async (chatId, token) => {
 }
 
 const fetchCurrentUser = async (token) => {
-    const res = await axios.get(`${process.env.REACT_APP_API_URL}/users/me`, {
+    const res = await axios.get(`${process.env.REACT_APP_API_URL}/api/users/me`, {
         headers: {Authorization: `Bearer ${token}`}
     });
     return res.data;
