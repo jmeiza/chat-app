@@ -59,10 +59,12 @@ chat-app/
    ```
 
 2. **Set up environment variables**
-    > Create a .env file inside server/ with:
+    > Create a `.env` file inside `server/` with:
+    ```env
     MONGO_URI=your_mongodb_uri
     JWT_SECRET=your_jwt_secret
     PORT=8000
+    ```
 
 3. **Install dependencies**
     ```bash
