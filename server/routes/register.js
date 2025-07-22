@@ -1,5 +1,6 @@
 import express from 'express';
 import bcrypt from 'bcryptjs';
+import jwt from 'jsonwebtoken';
 import User from '../models/user.js'
 
 const router = express.Router();
@@ -31,9 +32,14 @@ router.post('/register', async (req, res) => {
             password: hashedPassword
         });
 
-        await newUser.save();
+        const savedUser = await newUser.save();
+        const token = jwt.sign(
+            { id: savedUser._id, username: savedUser.username },
+            process.env.JWT_SECRET,
+            { expiresIn: '1d' }
+        );
 
-        return res.status(201).json({ message: 'Registered successfuly!' });
+        return res.status(201).json({ token, message: 'Registered successfuly!' });
     }
     catch (error) {
         console.error('Registration error:', error);
