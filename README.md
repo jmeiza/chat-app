@@ -2,7 +2,8 @@
 
 A modern full-stack chat application with real-time messaging, built using the MERN stack and Socket.io.
 
-- 🔗 **Frontend**: https://chat-app-puce-iota.vercel.app/
+- 🔗 **Frontend**: https://chat-app-puce-iota.vercel.app
+
 ---
 
 ## ⚙️ Tech Stack
