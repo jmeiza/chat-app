@@ -33,7 +33,7 @@ const Register = () => {
         <label className={styles.label} htmlFor="username">username</label>
         <input 
           type="text" 
-          placeholder="Your full username"
+          placeholder="Your full Username"
           className={styles.input} 
           value={username} 
           onChange={ (e) => setusername(e.target.value)} 
