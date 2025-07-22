@@ -18,8 +18,9 @@ const Register = () => {
       navigate('/chat');
     }
     catch (err) {
-      console.error('Registration failed:', err.response?.data || err.message);
-      alert('Registration failed');
+      const errorMessage = err.response?.data?.message || err.message || 'Registration failed';
+      console.error('Registration failed:', errorMessage);
+      alert(errorMessage);
     }
   };
 
